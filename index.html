@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Loren Mburu Mahia · Software Engineer</title>
+<meta name="description" content="Software engineer at Qualcomm working on camera platforms and AI-driven test tooling, based in Greater Toronto.">
+<meta name="theme-color" content="#F7F8F5">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Loren Mburu Mahia · Software Engineer">
+<meta property="og:description" content="Camera platforms and AI-driven test tooling at Qualcomm, plus Loren, a finance app built solo.">
+<meta property="og:url" content="https://lorenmahia.github.io/">
+<link rel="canonical" href="https://lorenmahia.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23CFD4CC'/%3E%3Cpath d='M5 11V5h6M21 5h6v6M27 21v6h-6M11 27H5v-6' fill='none' stroke='%23171B19' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='5' fill='none' stroke='%230B7A57' stroke-width='2.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=JetBrains+Mono:wght@400;500&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Loren Mburu Mahia",
+  "jobTitle": "Software Engineer, Camera",
+  "worksFor": { "@type": "Organization", "name": "Qualcomm" },
+  "address": { "@type": "PostalAddress", "addressLocality": "Markham", "addressRegion": "ON", "addressCountry": "CA" },
+  "alumniOf": "Tufts University",
+  "email": "mailto:lmahiam98@gmail.com",
+  "url": "https://lorenmahia.github.io/",
+  "sameAs": ["https://github.com/lorenmahia", "https://www.linkedin.com/in/lorenmahia"]
+}
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --scene: #CFD4CC;
+  --chrome: #F7F8F5;
+  --ink: #171B19;
+  --muted: #5A635E;
+  --muted-scene: #434B46; /* muted text on the scene grey; keeps 4.5:1 */
+  --focus: #0B7A57;
+  --amber: #D99A05;
+  --line: rgba(23, 27, 25, .13);
+  --strip-h: 44px;
+  --gutter: clamp(16px, 5vw, 64px);
+  --sans: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--strip-h) + 24px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--scene);
+  color: var(--ink);
+  font: 400 17px/1.6 var(--sans);
+  font-stretch: 100%;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: inherit; }
+code { font-family: var(--mono); font-size: .88em; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+
+.mono { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+
+.skip {
+  position: fixed; left: 12px; top: -60px; z-index: 50;
+  background: var(--ink); color: var(--chrome); padding: 8px 12px; text-decoration: none;
+}
+.skip:focus { top: 8px; }
+
+/* ---------- Camera chrome ---------- */
+
+.strip {
+  position: fixed; left: 0; right: 0; z-index: 20;
+  height: var(--strip-h);
+  display: flex; align-items: center; gap: 24px;
+  padding: 0 var(--gutter);
+  background: var(--chrome);
+  font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+}
+.strip.top { top: 0; border-bottom: 1px solid var(--line); }
+.strip.bottom {
+  bottom: 0; border-top: 1px solid var(--line);
+  height: calc(var(--strip-h) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.strip .id { font-weight: 500; text-decoration: none; white-space: nowrap; }
+.readouts { display: flex; gap: 18px; color: var(--muted); margin: 0 auto; padding: 0; list-style: none; }
+.readouts li { white-space: nowrap; }
+.status { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; white-space: nowrap; margin-left: auto; }
+.readouts + .status { margin-left: 0; }
+.dot {
+  width: 9px; height: 9px; border-radius: 50%; flex: none;
+  background: var(--amber);
+  animation: tally 2.4s ease-in-out infinite;
+}
+@keyframes tally {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217, 154, 5, .5); }
+  50% { box-shadow: 0 0 0 5px rgba(217, 154, 5, 0); }
+}
+
+.af-read, .frame-count { flex: 1 1 0; min-width: 0; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.frame-count { text-align: right; }
+.af-read b { color: var(--focus); font-weight: 500; }
+
+.dial { display: flex; gap: clamp(12px, 2.4vw, 28px); flex: none; }
+.dial a {
+  position: relative; text-decoration: none; color: var(--muted);
+  padding: 12px 0; transition: color .2s;
+}
+.dial a:hover { color: var(--ink); }
+.dial a[aria-current="true"] { color: var(--ink); font-weight: 500; }
+.dial a::before {
+  content: ""; position: absolute; left: 50%; top: 2px;
+  border: 4px solid transparent; border-top-color: var(--focus);
+  transform: translate(-50%, -4px); opacity: 0;
+  transition: opacity .2s, transform .25s var(--ease);
+}
+.dial a[aria-current="true"]::before { opacity: 1; transform: translate(-50%, 0); }
+
+.bracket {
+  position: fixed; z-index: 15; width: 26px; height: 26px; pointer-events: none;
+  border: 0 solid var(--ink); opacity: .5;
+}
+.bracket.tl { top: calc(var(--strip-h) + 12px); left: 12px; border-top-width: 2px; border-left-width: 2px; }
+.bracket.tr { top: calc(var(--strip-h) + 12px); right: 12px; border-top-width: 2px; border-right-width: 2px; }
+.bracket.bl { bottom: calc(var(--strip-h) + 12px + env(safe-area-inset-bottom)); left: 12px; border-bottom-width: 2px; border-left-width: 2px; }
+.bracket.br { bottom: calc(var(--strip-h) + 12px + env(safe-area-inset-bottom)); right: 12px; border-bottom-width: 2px; border-right-width: 2px; }
+
+/* Focus ring: fine pointers only, positioned by script */
+.af {
+  position: fixed; left: 0; top: 0; z-index: 30; pointer-events: none;
+  width: 56px; height: 56px; border-radius: 28px;
+  border: 1.5px solid var(--focus);
+  opacity: 0; transition: opacity .35s;
+  will-change: transform;
+}
+.af.on { opacity: 1; }
+.af.on.dim { opacity: .3; }
+.af-tag {
+  position: absolute; left: -1.5px; top: -1.5px; transform: translateY(-100%);
+  background: var(--focus); color: #fff; padding: 5px 7px 4px;
+  font: 500 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap;
+  border-radius: 2px 2px 0 0; opacity: 0; transition: opacity .2s;
+}
+.af.locked .af-tag { opacity: 1; }
+
+/* ---------- Layout ---------- */
+
+main {
+  max-width: 1120px; margin: 0 auto;
+  padding: calc(var(--strip-h) + 32px) var(--gutter) calc(var(--strip-h) + 40px);
+}
+section { padding: 72px 0; }
+
+.sec-head { margin-bottom: 36px; }
+.sec-head .mono { margin: 0 0 10px; color: var(--muted-scene); }
+.sec-head .mono span { color: var(--focus); }
+h1, h2, h3 { margin: 0; font-weight: 700; }
+h2 {
+  font-size: clamp(28px, 3.6vw, 40px); line-height: 1.1;
+  font-stretch: 112%; letter-spacing: -.015em; max-width: 24ch;
+}
+h3 { font-size: 19px; line-height: 1.3; font-stretch: 106%; font-weight: 650; }
+.sec-head p:not(.mono) { margin: 14px 0 0; color: var(--muted-scene); max-width: 62ch; }
+
+/* ---------- Hero ---------- */
+
+.hero {
+  min-height: calc(100svh - 2 * var(--strip-h) - 32px);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 48px 0 72px;
+}
+.hero > .mono { color: var(--muted-scene); margin: 0 0 38px; } /* room for the AF lock tag */
+h1 {
+  font-size: clamp(46px, 8.4vw, 104px); line-height: .96;
+  font-weight: 800; font-stretch: 116%; letter-spacing: -.03em;
+  margin: 0 0 28px;
+}
+.role { font-size: clamp(19px, 2vw, 23px); line-height: 1.4; font-weight: 500; font-stretch: 104%; margin: 0 0 18px; max-width: 46ch; }
+.lede { margin: 0 0 32px; max-width: 60ch; color: var(--muted-scene); }
+
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 48px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 18px; border-radius: 3px; text-decoration: none;
+  font-weight: 600; font-size: 15px; border: 1.5px solid var(--ink);
+  transition: background .2s, border-color .2s;
+}
+.btn.primary { background: var(--ink); color: var(--chrome); }
+.btn.primary:hover { background: var(--focus); border-color: var(--focus); }
+.btn.ghost:hover { background: var(--chrome); }
+
+.exif {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px;
+  max-width: 880px; margin: 0;
+  background: rgba(23, 27, 25, .2); border: 1px solid rgba(23, 27, 25, .2);
+}
+.exif div { background: var(--scene); padding: 14px 16px; }
+.exif dt { font: 500 clamp(22px, 2.6vw, 30px)/1.1 var(--mono); letter-spacing: -.02em; }
+.exif dd { margin: 6px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted-scene); }
+
+/* ---------- Detection boxes ---------- */
+
+.target { position: relative; }
+.target::before {
+  content: ""; position: absolute; inset: -7px; pointer-events: none;
+  border: 1.5px solid var(--focus); border-radius: 4px;
+  opacity: 0; transform: scale(1.025);
+  transition: opacity .16s, transform .3s var(--ease);
+}
+.target::after {
+  content: attr(data-label) "  " attr(data-conf);
+  position: absolute; left: -7px; top: -7px; pointer-events: none;
+  transform: translateY(calc(-100% + 4px));
+  background: var(--focus); color: #fff; padding: 5px 7px 4px;
+  font: 500 11px/1 var(--mono); letter-spacing: .06em; white-space: pre;
+  border-radius: 2px 2px 0 0;
+  opacity: 0; transition: opacity .16s, transform .3s var(--ease);
+}
+.target.detected, .target:focus-within { z-index: 2; }
+.target.detected::before, .target:focus-within::before { opacity: 1; transform: none; }
+.target.detected::after, .target:focus-within::after { opacity: 1; transform: translateY(-100%); }
+@media (hover: hover) {
+  .target:hover { z-index: 2; }
+  .target:hover::before { opacity: 1; transform: none; }
+  .target:hover::after { opacity: 1; transform: translateY(-100%); }
+}
+
+/* ---------- Now ---------- */
+
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 28px; margin: 0; padding: 0; list-style: none; }
+.card { background: var(--chrome); border-radius: 4px; padding: 22px 24px 24px; }
+.card h3 { margin-bottom: 8px; }
+.card p { margin: 0; font-size: 15.5px; line-height: 1.6; color: var(--muted); max-width: 60ch; }
+.card.lead { grid-column: 1 / -1; display: grid; grid-template-columns: auto 1fr; gap: 12px 36px; align-items: center; }
+.metric { font: 500 clamp(44px, 6vw, 68px)/1 var(--mono); letter-spacing: -.04em; color: var(--focus); }
+.metric small { display: block; margin-top: 8px; font: 400 12px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------- Loren ---------- */
+
+.product { background: var(--chrome); border-radius: 4px; padding: clamp(22px, 3vw, 36px); max-width: 900px; }
+.product-top { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: baseline; justify-content: space-between; margin-bottom: 14px; }
+.product-top h3 { font-size: 26px; font-stretch: 112%; font-weight: 750; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.chips li { border: 1px solid var(--line); border-radius: 2px; padding: 4px 8px 3px; color: var(--muted); }
+.chips li.live { color: var(--focus); border-color: currentColor; }
+.product > p { margin: 0 0 26px; max-width: 64ch; color: var(--muted); }
+.product > p strong { color: var(--ink); font-weight: 600; }
+.spec { display: grid; grid-template-columns: 9.5rem 1fr; margin: 0; border-top: 1px solid var(--line); }
+.spec dt, .spec dd { margin: 0; padding: 11px 0; border-bottom: 1px solid var(--line); }
+.spec dt { color: var(--muted); padding-top: 14px; }
+.spec dd { font-size: 15.5px; line-height: 1.55; }
+
+/* ---------- Path log ---------- */
+
+.log-bar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin-bottom: 18px; }
+.switch {
+  display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+  background: var(--chrome); color: var(--ink); border: 1px solid var(--line); border-radius: 3px;
+  padding: 9px 14px 9px 10px; font: 500 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase;
+}
+.switch:hover { border-color: var(--ink); }
+.track { width: 30px; height: 16px; border-radius: 8px; background: var(--scene); position: relative; transition: background .2s; flex: none; }
+.track::after {
+  content: ""; position: absolute; left: 2px; top: 2px; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--ink); transition: transform .25s var(--ease), background .2s;
+}
+.switch[aria-checked="true"] .track { background: var(--focus); }
+.switch[aria-checked="true"] .track::after { transform: translateX(14px); background: #fff; }
+.log-status { color: var(--muted-scene); }
+
+.log { list-style: none; margin: 0; padding: 8px 0; max-width: 940px; background: var(--chrome); border-radius: 4px; }
+.entry {
+  display: grid; grid-template-columns: 5.2rem 7.6rem minmax(0, 1fr) 6.5rem; gap: 0 18px; align-items: baseline;
+  padding: 12px clamp(16px, 2.4vw, 28px); border-top: 1px solid var(--line);
+  background: var(--chrome);
+}
+.log > .entry:first-child, .cluster-head + .entry { border-top-color: transparent; }
+.entry time, .entry .place, .entry .tag { font: 400 12px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.entry time { color: var(--ink); font-weight: 500; }
+.entry .place { color: var(--muted); }
+.entry .what { margin: 0; font-size: 15.5px; line-height: 1.55; color: var(--muted); }
+.entry .what strong { color: var(--ink); font-weight: 600; }
+.entry .tag { color: var(--muted); text-align: right; transition: opacity .2s; }
+.entry .tag b { color: var(--focus); font-weight: 500; }
+.entry.side time { color: var(--muted); }
+.log.clustered .entry .tag { opacity: 0; }
+
+.cluster-head { padding: 22px clamp(16px, 2.4vw, 28px) 8px; border-top: 1px solid var(--line); }
+.log > .cluster-head:first-child { border-top: 0; padding-top: 14px; }
+.cluster-head .mono { color: var(--focus); display: block; margin-bottom: 4px; }
+.cluster-head h3 { font-size: 20px; font-stretch: 110%; }
+
+/* ---------- How I work ---------- */
+
+.how { list-style: none; margin: 0; padding: 0; max-width: 68ch; counter-reset: how; }
+.how li { display: grid; grid-template-columns: 3rem 1fr; padding: 18px 0; border-top: 1px solid rgba(23, 27, 25, .2); counter-increment: how; }
+.how li:last-child { border-bottom: 1px solid rgba(23, 27, 25, .2); }
+.how li::before { content: counter(how, decimal-leading-zero); font: 500 12px/1.9 var(--mono); color: var(--focus); }
+.how p { margin: 0; color: var(--muted-scene); }
+.how strong { color: var(--ink); font-weight: 650; font-stretch: 106%; }
+
+/* ---------- Contact ---------- */
+
+.contact-list { list-style: none; margin: 0; padding: 0; max-width: 640px; background: var(--chrome); border-radius: 4px; }
+.contact-list li + li { border-top: 1px solid var(--line); }
+.contact-list a {
+  display: grid; grid-template-columns: 6.5rem 1fr auto; gap: 4px 16px; align-items: baseline;
+  padding: 18px 22px; text-decoration: none; transition: background .2s;
+}
+.contact-list a:hover { background: #fff; }
+.contact-list .mono { color: var(--muted); }
+.contact-list .val { font-size: 18px; font-weight: 600; overflow-wrap: anywhere; }
+.contact-list .arrow { font-family: var(--mono); color: var(--focus); transition: transform .25s var(--ease); }
+.contact-list a:hover .arrow { transform: translateX(4px); }
+
+.colophon { margin: 56px 0 0; color: var(--muted-scene); }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1000px) {
+  .readouts { display: none; }
+  .entry { grid-template-columns: 4.6rem 7rem minmax(0, 1fr); }
+  .entry .tag { display: none; }
+}
+@media (max-width: 760px) {
+  .af-read, .frame-count { display: none; }
+  .strip.bottom { justify-content: center; }
+  .cards { grid-template-columns: 1fr; }
+  .card.lead { grid-template-columns: 1fr; }
+  .exif { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .spec { grid-template-columns: 1fr; }
+  .spec dt { border-bottom: 0; padding-bottom: 0; }
+  .entry { grid-template-columns: auto 1fr; gap: 2px 14px; }
+  .entry .what { grid-column: 1 / -1; }
+  .contact-list a { grid-template-columns: 1fr auto; }
+  .contact-list .mono { grid-column: 1 / -1; }
+  section { padding: 56px 0; }
+}
+@media (max-width: 420px) {
+  .strip { gap: 12px; }
+  .strip.top .id { display: none; }
+  .status { margin: 0 auto; }
+  .dial { gap: 14px; }
+  .bracket { width: 18px; height: 18px; }
+  .bracket.tl, .bracket.bl { left: 6px; }
+  .bracket.tr, .bracket.br { right: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0s !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="strip top">
+  <a class="id" href="#top">L. M. Mahia</a>
+  <ul class="readouts" aria-hidden="true">
+    <li>ISO 100</li><li>ƒ/1.8</li><li>1/250</li><li>AF-C</li>
+  </ul>
+  <a class="status" href="#now"><span class="dot" aria-hidden="true"></span>Now · camera + AI tooling</a>
+</header>
+
+<div class="bracket tl" aria-hidden="true"></div>
+<div class="bracket tr" aria-hidden="true"></div>
+<div class="bracket bl" aria-hidden="true"></div>
+<div class="bracket br" aria-hidden="true"></div>
+<div class="af" aria-hidden="true"><span class="af-tag">AF-C lock</span></div>
+
+<main id="main">
+
+  <section class="hero" id="top" data-frame="01">
+    <p class="mono">Greater Toronto, ON</p>
+    <h1><span id="subject">Loren Mburu Mahia</span></h1>
+    <p class="role">Software Engineer, camera platforms and AI-driven test tooling at Qualcomm.</p>
+    <p class="lede">Four years shipping Android camera on Qualcomm chipsets. I lead end-to-end camera app design and build the AI agents and MCP tools that cut my team’s system-testing workload by 30%. Biomedical engineer by training.</p>
+    <div class="actions">
+      <a class="btn primary" href="mailto:lmahiam98@gmail.com">Email me</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/lorenmahia" rel="noopener">LinkedIn</a>
+      <a class="btn ghost" href="https://github.com/lorenmahia" rel="noopener">GitHub</a>
+    </div>
+    <dl class="exif">
+      <div><dt>−30%</dt><dd>system-testing workload, via MCP tools for AI agents</dd></div>
+      <div><dt>4 yrs</dt><dd>Android camera on Qualcomm chipsets</dd></div>
+      <div><dt>2</dt><dd>platforms shipped solo: Android and iOS</dd></div>
+      <div><dt>B.S.</dt><dd>Biomedical Engineering, Tufts University</dd></div>
+    </dl>
+  </section>
+
+  <section id="now" data-frame="02">
+    <header class="sec-head">
+      <p class="mono"><span>02</span> · Now · Qualcomm Canada · May 2025 – present</p>
+      <h2>Camera apps, and the AI tooling that tests them</h2>
+      <p>Engineer, Camera, in Markham. I own camera application design for new chipsets and build the tools that let the test team move without waiting on anyone.</p>
+    </header>
+    <ul class="cards">
+      <li class="card lead target" data-label="agent_tooling" data-conf="0.98">
+        <div class="metric">−30%<small>System-testing workload</small></div>
+        <div>
+          <h3>MCP tools that let AI agents run camera tests</h3>
+          <p>Agents run automated camera tests and upload the results to the team database, which freed engineers for feature work.</p>
+        </div>
+      </li>
+      <li class="card target" data-label="camera_app" data-conf="0.97">
+        <h3>Camera apps for new chipsets, end to end</h3>
+        <p>I lead the design of the camera Android applications, adding face, gaze and pet detection from the native layer up to the app.</p>
+      </li>
+      <li class="card target" data-label="test_gen_agent" data-conf="0.95">
+        <h3>Tests written in plain English</h3>
+        <p>A natural-language agent: the test team describes a stability test, and it generates bulk tests over random feature combinations with no hard-coded feature dependencies.</p>
+      </li>
+      <li class="card target" data-label="log_triage" data-conf="0.94">
+        <h3>Failures clustered by root cause</h3>
+        <p>An AI log-parsing tool that groups failures by cause, so developers stop re-debugging the same issue.</p>
+      </li>
+      <li class="card target" data-label="vendor_tags" data-conf="0.91">
+        <h3>Custom vendor tags</h3>
+        <p>Integrated into the camera applications, shortening the time it takes to bring a new feature under test.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section id="loren" data-frame="03">
+    <header class="sec-head">
+      <p class="mono"><span>03</span> · Loren · 2025 – present</p>
+      <h2>A finance app I built and run on my own</h2>
+      <p>Founder and sole engineer: architecture, CI, backups and deploys.</p>
+    </header>
+    <article class="product target" data-label="product · in_production" data-conf="1.00">
+      <div class="product-top">
+        <h3>Loren</h3>
+        <ul class="chips mono">
+          <li class="live">In production</li><li>Android</li><li>iOS</li>
+        </ul>
+      </div>
+      <p>A personal-finance app for <strong>goal-based saving</strong>, <strong>savings groups (chamas)</strong> and <strong>in-app learning</strong>. It is non-custodial: mobile-money statements are parsed on the user’s own device, and the app never holds or moves money.</p>
+      <dl class="spec">
+        <dt class="mono">Backend</dt><dd>Node 22 on the built-in <code>node:http</code> with a hand-written router. No framework.</dd>
+        <dt class="mono">Data</dt><dd>SQLite in WAL mode via <code>node:sqlite</code>, no ORM. WAL-safe backups with restore drills.</dd>
+        <dt class="mono">Dependencies</dt><dd>Two at runtime: dotenv and web-push.</dd>
+        <dt class="mono">Client</dt><dd>Zero-build vanilla-JS single-page app with service-worker offline caching.</dd>
+        <dt class="mono">Mobile</dt><dd>Capacitor wraps the same app for Android and iOS; Android bundles build in CI.</dd>
+        <dt class="mono">Ops</dt><dd>Docker on Fly.io. GitHub Actions for PR tests, conditional Android builds and a nightly ops job.</dd>
+      </dl>
+    </article>
+  </section>
+
+  <section id="path" data-frame="04">
+    <header class="sec-head">
+      <p class="mono"><span>04</span> · Path · 2020 – present</p>
+      <h2>The log</h2>
+      <p>Nairobi to Toronto, by way of Cincinnati, Medford and San Diego. Group the lines the way my log tool groups camera failures, and three causes keep coming up.</p>
+    </header>
+    <div class="log-bar">
+      <button class="switch" id="cluster" type="button" role="switch" aria-checked="false" aria-controls="log">
+        <span class="track" aria-hidden="true"></span>Cluster by root cause
+      </button>
+      <span class="log-status mono" id="log-status" aria-live="polite">11 lines · chronological</span>
+    </div>
+    <ol class="log" id="log">
+      <li class="entry" data-cluster="none">
+        <time datetime="2020">2020</time><span class="place">Nairobi</span>
+        <p class="what"><strong>Megascope HealthCare</strong>, software technical intern. Ran C++ unit tests on Mindray MRI, ultrasound and CT software in the country’s major hospitals; used Python on Covid-19 data to target ventilator placement.</p>
+        <span class="tag">—</span>
+      </li>
+      <li class="entry" data-cluster="tools">
+        <time datetime="2021">2021</time><span class="place">Cincinnati</span>
+        <p class="what"><strong>Johnson &amp; Johnson, Ethicon</strong>, software quality co-op. Built an Excel-macro risk analysis for surgical linear staplers and checked manufacturing data against control plans, cGMP and ISO 13485.</p>
+        <span class="tag"><b>A</b> · tools</span>
+      </li>
+      <li class="entry" data-cluster="none">
+        <time datetime="2022">2022</time><span class="place">Medford, MA</span>
+        <p class="what"><strong>Tufts University</strong>, B.S. Biomedical Engineering.</p>
+        <span class="tag">—</span>
+      </li>
+      <li class="entry" data-cluster="owns">
+        <time datetime="2022">2022</time><span class="place">San Diego</span>
+        <p class="what"><strong>Qualcomm</strong>, Engineer, Camera. Designed and shipped Android apps in C++, Java and Python that test the camera driver from the HIDL layer to the Java framework; debugged kernel logs and landed change requests.</p>
+        <span class="tag"><b>B</b> · owns</span>
+      </li>
+      <li class="entry" data-cluster="tools">
+        <time datetime="2022">2022–25</time><span class="place">San Diego</span>
+        <p class="what">Led design of a <strong>faster GCOV coverage framework</strong> and automated legacy test suites, shortening upstream scrum cycles.</p>
+        <span class="tag"><b>A</b> · tools</span>
+      </li>
+      <li class="entry" data-cluster="teaches">
+        <time datetime="2022">2022–25</time><span class="place">San Diego</span>
+        <p class="what">Ran <strong>Android and camera-pipeline walkthroughs</strong> for new engineers.</p>
+        <span class="tag"><b>C</b> · teaches</span>
+      </li>
+      <li class="entry" data-cluster="teaches">
+        <time datetime="2022">2022–25</time><span class="place">San Diego</span>
+        <p class="what">Organised <strong>cross-country peer code reviews</strong> and weekly scrums with the driver and graphics teams.</p>
+        <span class="tag"><b>C</b> · teaches</span>
+      </li>
+      <li class="entry" data-cluster="owns">
+        <time datetime="2025">2025</time><span class="place">Markham, ON</span>
+        <p class="what"><strong>Qualcomm Canada</strong>, Engineer, Camera. Lead end-to-end design of the camera apps for new chipsets, from the native layer up.</p>
+        <span class="tag"><b>B</b> · owns</span>
+      </li>
+      <li class="entry" data-cluster="tools">
+        <time datetime="2025">2025</time><span class="place">Markham, ON</span>
+        <p class="what">Built <strong>MCP tools, a test-generation agent and root-cause log clustering</strong> for the test and dev teams. System-testing workload down 30%.</p>
+        <span class="tag"><b>A</b> · tools</span>
+      </li>
+      <li class="entry" data-cluster="owns">
+        <time datetime="2025">2025</time><span class="place">Toronto</span>
+        <p class="what"><strong>Loren</strong>, founder and sole engineer. Shipped a personal-finance app on Android and iOS and run it in production.</p>
+        <span class="tag"><b>B</b> · owns</span>
+      </li>
+      <li class="entry side" data-cluster="owns">
+        <time>Side</time><span class="place">Remote</span>
+        <p class="what"><strong>GoodTurn</strong>. Designed and deployed a freelance platform connecting talent in developing nations to US jobs, with a SQL job database fed from external job APIs.</p>
+        <span class="tag"><b>B</b> · owns</span>
+      </li>
+    </ol>
+  </section>
+
+  <section id="how" data-frame="05">
+    <header class="sec-head">
+      <p class="mono"><span>05</span> · How I work</p>
+      <h2>How I work</h2>
+    </header>
+    <ol class="how">
+      <li><p><strong>Leads across teams.</strong> I own camera app design end to end, working with the driver, graphics and test teams.</p></li>
+      <li><p><strong>Builds for other people.</strong> When the test team hits the same pain twice, I turn it into a self-serve tool rather than a one-off fix.</p></li>
+      <li><p><strong>Teaches.</strong> I run onboarding walkthroughs and cross-country code reviews for new engineers.</p></li>
+      <li><p><strong>Communicates clearly.</strong> I write crisp change requests and keep distributed teams aligned across time zones.</p></li>
+      <li><p><strong>Ships outside work.</strong> I own Loren end to end, from architecture and CI to backups and deploys.</p></li>
+    </ol>
+  </section>
+
+  <section id="contact" data-frame="06">
+    <header class="sec-head">
+      <p class="mono"><span>06</span> · Contact</p>
+      <h2>Say hello</h2>
+      <p>Email is the fastest way to reach me. I’m in Greater Toronto, on Eastern time.</p>
+    </header>
+    <ul class="contact-list">
+      <li><a href="mailto:lmahiam98@gmail.com"><span class="mono">Email</span><span class="val">lmahiam98@gmail.com</span><span class="arrow" aria-hidden="true">→</span></a></li>
+      <li><a href="https://www.linkedin.com/in/lorenmahia" rel="noopener"><span class="mono">LinkedIn</span><span class="val">in/lorenmahia</span><span class="arrow" aria-hidden="true">→</span></a></li>
+      <li><a href="https://github.com/lorenmahia" rel="noopener"><span class="mono">GitHub</span><span class="val">lorenmahia</span><span class="arrow" aria-hidden="true">→</span></a></li>
+    </ul>
+    <p class="colophon mono">© 2026 Loren Mburu Mahia</p>
+  </section>
+
+</main>
+
+<footer class="strip bottom">
+  <span class="af-read" id="af-read" aria-hidden="true">AF · <b>searching</b></span>
+  <nav class="dial" aria-label="Sections">
+    <a href="#now">Now</a>
+    <a href="#loren">Loren</a>
+    <a href="#path">Path</a>
+    <a href="#how">How I work</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <span class="frame-count" id="frame-count" aria-hidden="true">FRM 01/06</span>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const afRead = document.getElementById('af-read');
+  const setRead = (label, value) => { afRead.innerHTML = `${label} · <b>${value}</b>`; };
+
+  // Mode dial and frame counter follow the section in view.
+  const links = [...document.querySelectorAll('.dial a')];
+  const frameCount = document.getElementById('frame-count');
+  const seen = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      frameCount.textContent = `FRM ${e.target.dataset.frame}/06`;
+      for (const a of links) a.setAttribute('aria-current', a.hash === '#' + e.target.id ? 'true' : 'false');
+    }
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  document.querySelectorAll('main > section').forEach(s => seen.observe(s));
+
+  // Detection boxes: hover on desktop (CSS), tap on touch.
+  const targets = [...document.querySelectorAll('.target')];
+  if (!finePointer) {
+    document.addEventListener('click', e => {
+      const hit = e.target.closest('.target');
+      for (const t of targets) if (t !== hit) t.classList.remove('detected');
+      if (hit) hit.classList.toggle('detected');
+    });
+  }
+
+  // Focus ring: hunts on load, locks on the name, then follows the cursor.
+  const ring = document.querySelector('.af');
+  const subject = document.getElementById('subject');
+  if (finePointer) {
+    const cur = { x: innerWidth / 2, y: innerHeight / 2, w: 56, h: 56, r: 28 };
+    let goal = { ...cur };
+    let mode = 'hunt';
+    let mouse = null;
+    let over = null;
+    let lockedAt = 0;
+
+    const lock = () => {
+      mode = 'lock';
+      lockedAt = performance.now();
+      ring.classList.add('locked');
+      setRead('AF', 'locked');
+    };
+    const follow = () => {
+      mode = 'follow';
+      ring.classList.remove('locked');
+      setRead('AF', 'following');
+    };
+
+    const step = () => {
+      if (mode === 'lock') {
+        const b = subject.getBoundingClientRect();
+        goal = { x: b.left + b.width / 2, y: b.top + b.height / 2, w: b.width + 32, h: b.height + 20, r: 4 };
+      } else if (mode === 'follow' && mouse) {
+        const d = over ? 30 : 56;
+        goal = { x: mouse.x, y: mouse.y, w: d, h: d, r: d / 2 };
+      }
+      const k = reduce ? 1 : mode === 'hunt' ? 0.16 : 0.22;
+      for (const p in cur) cur[p] += (goal[p] - cur[p]) * k;
+      ring.style.width = cur.w + 'px';
+      ring.style.height = cur.h + 'px';
+      ring.style.borderRadius = cur.r + 'px';
+      ring.style.transform = `translate(${cur.x - cur.w / 2}px, ${cur.y - cur.h / 2}px)`;
+      requestAnimationFrame(step);
+    };
+
+    if (reduce) {
+      // No hunting and no following: a still focus box on the name.
+      lock();
+    } else if (scrollY > innerHeight / 2) {
+      follow();
+    } else {
+      const vw = innerWidth, vh = innerHeight;
+      const hops = [[.64, .36, 84], [.28, .58, 48], [.52, .46, 70], [.4, .4, 60]];
+      hops.forEach(([fx, fy, d], i) => setTimeout(() => {
+        if (mode === 'hunt') goal = { x: vw * fx, y: vh * fy, w: d, h: d, r: d / 2 };
+      }, 140 + i * 210));
+      setTimeout(() => { if (mode === 'hunt') lock(); }, 140 + hops.length * 210 + 120);
+    }
+
+    requestAnimationFrame(() => { ring.classList.add('on'); step(); });
+
+    if (!reduce) {
+      addEventListener('pointermove', e => {
+        mouse = { x: e.clientX, y: e.clientY };
+        if (mode === 'lock' && performance.now() - lockedAt > 900) follow();
+        const t = e.target.closest ? e.target.closest('.target') : null;
+        if (t !== over) {
+          over = t;
+          ring.classList.toggle('dim', !!t);
+          if (mode === 'follow') t ? setRead('DET', `${t.dataset.label} ${t.dataset.conf}`) : setRead('AF', 'following');
+        }
+      }, { passive: true });
+      document.documentElement.addEventListener('mouseleave', () => { if (mode === 'follow') ring.classList.remove('on'); });
+      document.documentElement.addEventListener('mouseenter', () => ring.classList.add('on'));
+    }
+  } else {
+    setRead('AF', 'tap a project');
+  }
+
+  // Path: chronological log, or regrouped by root cause.
+  const log = document.getElementById('log');
+  const toggle = document.getElementById('cluster');
+  const status = document.getElementById('log-status');
+  const entries = [...log.querySelectorAll('.entry')];
+  const groups = [
+    ['tools', 'Cluster A', 'Builds tools for others'],
+    ['owns', 'Cluster B', 'Owns systems end to end'],
+    ['teaches', 'Cluster C', 'Teaches'],
+    ['none', 'Unclustered', 'Foundations'],
+  ].map(([key, id, title]) => {
+    const members = entries.filter(e => e.dataset.cluster === key);
+    const head = document.createElement('li');
+    head.className = 'cluster-head';
+    head.innerHTML = `<span class="mono">${id} · ${members.length} ${members.length === 1 ? 'line' : 'lines'}</span><h3>${title}</h3>`;
+    return { head, members };
+  });
+
+  toggle.addEventListener('click', () => {
+    const on = toggle.getAttribute('aria-checked') !== 'true';
+    toggle.setAttribute('aria-checked', String(on));
+    const before = new Map(entries.map(el => [el, el.getBoundingClientRect().top]));
+    log.replaceChildren(...(on ? groups.flatMap(g => [g.head, ...g.members]) : entries));
+    log.classList.toggle('clustered', on);
+    status.textContent = `${entries.length} lines · ${on ? '3 root causes' : 'chronological'}`;
+    if (reduce) return;
+    for (const el of entries) {
+      const dy = before.get(el) - el.getBoundingClientRect().top;
+      if (dy) el.animate([{ transform: `translateY(${dy}px)` }, { transform: 'none' }], { duration: 480, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    }
+    if (on) for (const g of groups) g.head.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, delay: 180, fill: 'backwards' });
+  });
+})();
+</script>
+</body>
+</html>
